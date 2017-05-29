@@ -4,7 +4,7 @@ Requires=systemd-modules-load.service
 After=systemd-modules-load.service vboxdrv.service
 
 [Service]
-User=nobody
+User=vboxheadless
 Group=vboxusers
 ExecStart=/usr/bin/VBoxHeadless -s %i
 ExecStop=/usr/bin/VBoxManage controlvm %i acpipowerbutton
