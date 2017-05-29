@@ -1,6 +1,6 @@
 %{?systemd_requires}
 Name:           vboxheadless-service
-Version:        1.0.2
+Version:        1.0.4
 Release:        1
 Summary:        Unit file for running a VirtualBox Headless VM
 
@@ -27,11 +27,13 @@ echo "Nothing to build"
 
 %install
 mkdir -p %{buildroot}/%{_unitdir}
+mkdir -p %{buildroot}/var/lib/vboxheadless/
 
 install -p -m 644 %{SOURCE0} %{buildroot}/%{_unitdir}
 
 %files
 %attr(0644, root, root) %{_unitdir}/%{name}@.service
+%attr(0755, vboxheadless, vboxusers) /var/lib/vboxheadless/
 
 %pre
 getent group vboxusers >/dev/null || groupadd -r vboxusers
@@ -50,6 +52,9 @@ exit 0
 %systemd_postun_with_restart %{name}@.service
 
 %changelog
+* Mon May 29 2017 Robert Van Voorhees <rcvanvo@gmail.com> - 1.0.4-1
+- Create the home directory
+
 * Mon May 29 2017 Robert Van Voorhees <rcvanvo@gmail.com> - 1.0.2-1
 - Create service user because nobody cannot create config files.
 
